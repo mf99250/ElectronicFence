@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title>Video Streaming Demonstration</title>
+			  
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	  		<script  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	  		<script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+            <script  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+            <script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+			<script  src = "{{url_for('static', filename='js/index.js')}}"></script>	
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#">ElectronicFence</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse" id="navbarText">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item"><a class = "nav-link">檢視Camera</a></li>
+                        <li class="nav-item active"><a class = "nav-link" href="{{url_for('index')}}">新增ROI</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="intro-text my-4">  
+                <h1>Camera</h1>
+            </div>
+            <div class="form-group row">
+                <label for="input1" class="col-xs-3 col-md-auto col-form-label">
+                    <h5>請選擇要設定的相機名稱：</h5>
+                </label>
+                
+                <div class="col-xs-4 col-md-3 col-lg-3" id = "shift">
+                    <select id="inputRoute" class="form-control"> <!--CameraName-->
+                        <option value="101">1323</option>
+                        <option value="102">1324</option>
+                        <option value="103">1325</option>
+                    </select>
+                </div>
+                <div class="col-auto mt-3 mt-md-0">
+                    <button type="submit" class="btn btn-primary yes" id="yes">確認</button>
+                </div>
+            </div>
+
+            <div style="float:left">
+                <img id="myImgId" alt="" src="{{ url_for('video_feed') }}" width="800" height="600">
+                <!--<img id="myImgId" alt="" src="D7.jpg" width="800" height="600" />-->
+
+                <script type="text/javascript">
+                
+                var myImg = document.getElementById("myImgId");
+                myImg.onmousedown = GetCoordinates;
+                
+                </script>
+
+                <p>X:<span id="x"></span></p>
+                <p>Y:<span id="y"></span></p>
+            </div>
+
+            <div class="table" id="roi">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mt-3">
+                
+                    <table class="table table-bordered" id = "roiTable"> 
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ROI Name</th>
+                                <th>ROI Attribute</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="display:none">
+                                <td id="Name">11</td>
+                                <td id="Attr">11</td>
+                                <td >
+                                    <a class="add" title="Add"><i class="material-icons">&#xE03B;</i></a>
+                                    <a class="edit" title="Edit"><i class="material-icons">&#xE254;</i></a>
+                                    <a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>
+                                </td>
+                            </tr>
+    
+                        </tbody>
+                    </table>
+                
+                </div>
+            </div>
+
+            <!--<div class="form-group row">
+                <div class="col-xs-4 col-md-5 col-lg-6" id = "roi" style="float:left">
+                    <table class="table" id="roiTable">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">ROI Name</th>
+                                <th scope="col">ROI Attribute</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>-->
+
+        </div>
+
+    </body>
+</html>
